@@ -16,16 +16,45 @@ class Bird {
 
         this.acceleration = 0.2;
         this.img = new Image();
-        this.img.src = "./bird.png";
+        this.img.src = "images/bird.png";
 
 
     }
-    draw() { }
+    draw() {
+        c.beginPath();
+        c.fillStyle = "red"
+        c.drawImage(
+            this.img,
+            this.position.x - this.size.width / 2,
+            this.position.y,
+            this.size.width,
+            this.size.height,
+        );
 
-    move() { }
+    }
+
+    move() {
+        this.velocity.y += this.acceleration;
+        this.position.y += this.velocity.y;
+    }
+    jump() {
+        this.velocity.y = -2;
+      }
+    
+    canvasCollision() {
+        if (this.position.y + this.size.height >= canvas.height) {
+            this.position.y = canvas.height - this.size.width;
+            this.isDead = true;
+        }
+
+    }
     update() {
         this.draw();
-        this.move();
+        if (!this.isDead) {
+            this.move();
+            this.canvasCollision();
+
+        }
     }
 
 
